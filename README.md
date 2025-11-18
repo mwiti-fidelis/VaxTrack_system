@@ -1,0 +1,1 @@
+To run this vaccination tracking system, first run the create_database.py to create and prepare you database which is preloaded with the multiple data tables. Then run the Main_menu.py to access the menu and all the functionalities of the vaxtrack healthcare application
