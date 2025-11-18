@@ -1,5 +1,5 @@
 from datetime import datetime
-from Notifications import Notification_sys
+from Notifications import Notification
 import sqlite3
 conn = sqlite3.connect("my_database.db") 
 cursor = conn.cursor()
@@ -1366,8 +1366,8 @@ Message:   {row[3]}
 
 
 if __name__=='__main__':
-    Patients_sys = Patients(patient_id=int)
-    Patients_sys.view_solo_info()
+    Patients = Patients(patient_id=int)
+    Patients.view_solo_info()
 
     def display_health_workers_menu():
         while True:
@@ -1389,22 +1389,22 @@ if __name__=='__main__':
             if menu_choice == 1:
                 print("===========ADD NEW PATIENT=============")
                 print("")
-                Patients_sys.get_patients_info()
+                Patients.get_patients_info()
             elif menu_choice == 2:
                 print("===========UPDATE PATIENT'S INFO==========")
                 print("")
-                Patients_sys.update_patient_info()
+                Patients.update_patient_info()
             elif menu_choice == 3:
                 print("")
-                Patients_sys.view_patient_info()
+                Patients.view_patient_info()
             elif menu_choice == 4:
                 print("")
-                Patients_sys.send_notifications()
+                Patients.send_notifications()
             elif menu_choice == 5:
                 print("")
-                Patients_sys.Hospital_info()
+                Patients.Hospital_info()
             elif menu_choice == 6:
-                Patients_sys.display_hospital_info()
+                Patients.display_hospital_info()
             elif menu_choice == 7:
                 print("==========EXITING, GOODBYE============")
                 break

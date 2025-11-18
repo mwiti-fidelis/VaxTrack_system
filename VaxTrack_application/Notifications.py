@@ -131,11 +131,11 @@ Next vacciantion date: {line[7]}"""
 
 
 if __name__=='__main__':
-    Notification_sys = Notification(notification_id=int, patient_id=int, notification_type=str, notification=str, sent_date=any)
-    Notification_sys.notification_sender()
-    Notification_sys.individual_notification()
-    Notification_sys.view_notifications_history()
-    Notification_sys.view_all_notifications()
-    Notification_sys.vaccination_records()
+    Notification = Notification(notification_id=int, patient_id=int, notification_type=str, notification=str, sent_date=any)
+    Notification.notification_sender()
+    Notification.individual_notification()
+    Notification.view_notifications_history()
+    Notification.view_all_notifications()
+    Notification.vaccination_records()
 
 conn.commit()

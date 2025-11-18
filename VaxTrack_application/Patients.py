@@ -2,8 +2,8 @@ import sqlite3
 conn = sqlite3.connect("my_database.db")
 cursor = conn.cursor()
 
-from Notifications import Notification_sys
-from Health_worker import Patients_sys
+from Notifications import Notification
+from Health_worker import Patients
 
 class Infants:
     def __init__(self, patient_id):
@@ -83,9 +83,9 @@ class Infants:
             continue
 
 if __name__=='__main__':
-    Infants_sys = Infants(patient_id=int)
+    Infants = Infants(patient_id=int)
     def view_hospital_info_page():
-        Patients_sys.display_hospital_info()
+        Patients.display_hospital_info()
         while True:
             print("""
         ==================================
