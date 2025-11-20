@@ -11,7 +11,12 @@ cursor.execute("""
 class Patients: 
     def __init__(self, patient_id):
         self.patient_id = patient_id
-        self.health_dict = {}
+        self.hospital_data = {
+        'name': 'Funny Healthcare',
+        'address': '26th street, Kigali',
+        'hotline': '1344',
+        'contact': '0788448848',
+        'website': 'www.funnyhealthcare.org'}
 
     #Add this to the first table called patient_info
     def get_patients_info(self):
@@ -877,9 +882,8 @@ Current Address: | {row[6]}, {row[7]}
 ========= VIEW PATIENT INFORMATION =========
 1. View by Name (Alphabetically)
 2. View by Upcoming Vaccination Date
-3. View by Last Date of Modification
-4. View by Unique Patient ID
-5. Exit
+3. View by Unique Patient ID
+4. Exit
 ============================================
 """)
 
@@ -893,7 +897,7 @@ Current Address: | {row[6]}, {row[7]}
                 print("Invalid input. Choice range must be (1-5)")
                 continue
 
-            if choice == "5":
+            if choice == "4":
                 print("Exiting. Good bye")
                 exit(1)
 
@@ -968,44 +972,8 @@ How do you wish to continue
                         break
                     continue
 
-            # ------------------ 3. LAST MODIFICATION DATE ------------------
-            elif choice == "3":
-                cursor.execute("""
-                    SELECT patient_id, first_name, last_name, last_modified
-                    FROM patients
-                    ORDER BY last_modified DESC
-                """)
-                rows = cursor.fetchall()
-                print("\n===== Patients by Last Modified Date =====")
-                for row in rows:
-                    print(row)
-                
-                while True:
-                    print("""
-==================================
-How do you wish to continue
-==================================
-----------------------------------
-1. Return to the previous menu
-2. Exit
-""")
-                    question = input("Please enter your choice: ")
-                    if not question or not question.isdigit():
-                        print("Invalid input. enter (1-2)")
-                        continue
-                    if not question == "2" and not question == "1":
-                        print("Invalid input. Enter 1 or 2")
-                    
-                    if question == "2":
-                        print("Exiting. Goodbye")
-                        exit(1)
-
-                    if question == "1":
-                        break
-                    continue
-
-            # ------------------ 4. BY UNIQUE PATIENT ID ------------------
-            if choice == "4":
+            # ------------------ 3. BY UNIQUE PATIENT ID ------------------
+            if choice == "3":
                 patient_id = input("Enter patient ID: ").strip()
                 if not patient_id.isdigit():
                     print("Invalid ID.")
@@ -1133,7 +1101,7 @@ Current Address: | {row[6]}, {row[7]}
                     if notification.lower() == "x":
                         print("Exiting. Goodbye")
                         exit(1)
-                    if not notification or not all(char.isalpha() or char.isspace() for char in notification):
+                    if not notification:
                         print("Invalid Input. Please enter a valid notification.")
                         continue
                     print(f"Message entered: {notification}\n")
@@ -1302,52 +1270,56 @@ Message:   {row[3]}
     
 
     def Hospital_info(self):
-        unique_id = '#Hospital info'
+        unique_id = '#Hospital'
         hospital_id = input("Enter the Hospital's Unique ID to update the hospital details: ").strip().lower()
         
         if not hospital_id or not hospital_id == unique_id.lower():
             print("Invalid Hospital id!")
             exit()
-        
-        print("""
-        ===================================
-        WELCOME TO HOSPITAL INFO PAGE
-        ==================================
-        1. Update Hospital Name
-        2. Update Hospital Address
-        3. Update Hospital's Hotline
-        4. Update Contact Details
-        5. Update Hospital's website
-        6. Exit 
-        """)
-        
         while True:
+            print("""
+            ===================================
+            WELCOME TO HOSPITAL INFO PAGE
+            ==================================
+            1. Update Hospital Name
+            2. Update Hospital Address
+            3. Update Hospital's Hotline
+            4. Update Contact Details
+            5. Update Hospital's website
+            6. Exit 
+            """)
+
             choice = input("Select an option 1-6: ")
             
             if choice == '1':
                 new_hospital_name = input("Enter the new Hospital's Name: ")
                 self.hospital_data['name'] = new_hospital_name
                 print("Hospital Name updated successfully.")
-            
+                continue
+
             elif choice == '2':
                 new_hospital_address = input("Enter the Hospital Address: ")
                 self.hospital_data['address'] = new_hospital_address
                 print("Hospital Address updated successfully.")
-            
+                continue
+                
             elif choice == '3':
                 new_hospital_hotline = input("Enter the Hospital's Hotline: ")
                 self.hospital_data['hotline'] = new_hospital_hotline
                 print("Hospital Hotline updated successfully.")
+                continue
             
             elif choice == '4':
                 new_contact_details = input("Enter the Contact Details: ")
                 self.hospital_data['contact'] = new_contact_details
                 print("Contact Details updated successfully.")
+                continue
             
             elif choice == '5':
                 updated_hospital_website = input("Enter the Hospital's Website: ")
                 self.hospital_data['website'] = updated_hospital_website
                 print("Hospital Website updated successfully.")
+                continue
             
             elif choice == '6':
                 print("Exiting the Hospital Info Page, Good Bye!")
@@ -1355,6 +1327,7 @@ Message:   {row[3]}
             
             else:
                 print("Invalid option! Please select a valid option (1-6).")
+                continue
 
     def display_hospital_info(self):
         print("""
@@ -1365,11 +1338,7 @@ Message:   {row[3]}
             print(f"{key.capitalize()}: {value}")
 
 
-if __name__=='__main__':
-    Patients = Patients(patient_id=int)
-    Patients.view_solo_info()
-
-    def display_health_workers_menu():
+def display_health_workers_menu(patient_instance):
         while True:
             print("""============WELCOME TO HEALTH WORKER'S MENU=============
             1. ADD A NEW PATIENT
@@ -1389,22 +1358,22 @@ if __name__=='__main__':
             if menu_choice == 1:
                 print("===========ADD NEW PATIENT=============")
                 print("")
-                Patients.get_patients_info()
+                patient_instance.get_patients_info()
             elif menu_choice == 2:
                 print("===========UPDATE PATIENT'S INFO==========")
                 print("")
-                Patients.update_patient_info()
+                patient_instance.update_patient_info()
             elif menu_choice == 3:
                 print("")
-                Patients.view_patient_info()
+                patient_instance.view_patient_info()
             elif menu_choice == 4:
                 print("")
-                Patients.send_notifications()
+                patient_instance.send_notifications()
             elif menu_choice == 5:
                 print("")
-                Patients.Hospital_info()
+                patient_instance.Hospital_info()
             elif menu_choice == 6:
-                Patients.display_hospital_info()
+                patient_instance.display_hospital_info()
             elif menu_choice == 7:
                 print("==========EXITING, GOODBYE============")
                 break
@@ -1412,7 +1381,14 @@ if __name__=='__main__':
                 print("Invalid menu option")
                 continue
 
-
-display_health_workers_menu()
+if __name__=='__main__':
+    patient_instance = Patients(patient_id=0)
+    # patient_instance.view_patient_info()
+    # patient_instance.update_patient_info()
+    # patient_instance.send_notifications()
+    # patient_instance.Hospital_info()
+    # patient_instance.display_hospital_info()
+    # patient_instance.view_solo_info()
+    display_health_workers_menu(patient_instance)
 
 conn.commit()

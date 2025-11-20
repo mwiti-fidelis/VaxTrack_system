@@ -63,9 +63,11 @@ SELECT * FROM notifications;
             if int(patient_id) == your_id:
                 print(f"Welcome to the system\nYour ID is {patient_id}")
             cursor.execute(f"""
-                        select notification_id, patient_id, notification_type, notification, sent_date from notifications where patient_id={self.patient_id}
-                        order by {4} desc;
-                        """)
+    SELECT notification_id, patient_id, notification_type, notification, sent_date 
+    FROM notifications 
+    WHERE patient_id = {patient_id}
+    ORDER BY sent_date DESC;
+""")
             work = cursor.fetchall()
             print("=========Notification History=========")
             print(" ")
@@ -76,6 +78,7 @@ SELECT * FROM notifications;
     Message:   {row[3]}                 
     """
                 print(row)
+            break
 
 
     def view_notifications_history(self):
