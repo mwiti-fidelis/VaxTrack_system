@@ -338,7 +338,7 @@ Current Address: | {row[6]}, {row[7]}
 
                         elif choice == "3":
                             while True:
-                                new_gender = input("Enter the patients gender").strip()
+                                new_gender = input("Enter the patients gender: ").strip()
                                 if new_gender.lower() == "x":
                                     print("Exiting. Goodbye")
                                     exit(1)
@@ -531,29 +531,32 @@ Hepatitis B II  | {line[3]}
 Hepatitis B III | {line[5]}
 --------------------------------
 
-Next vaccination date: {line[7]}""")
+Next vacciantion date: {line[7]}""")
 
                         print("""
 ============================================
 Which vaccination would you like to update
 ============================================
-1. Hepatitis B I
-2. Hepatitis B II
-3. Hepatitis B III
-4. Return to the previous menu
-5. Exit
+                              
++------------------------------------------+
+| 1. |  Hepatitis B I                      |
+|------------------------------------------|
+| 2. |  Hepatitis B II                     |
+|------------------------------------------|
+| 3. |  Hepatitis B III                    |
+|------------------------------------------|
+| 4. |  Return to the previous menu        |
+|------------------------------------------|
+| 5. |  Exit                               |
++------------------------------------------+
 """)
 
                         vaccine = input("Enter the vaccine that you want to update: ")
-                        try: #validation of the option selected
-                            vaccine = int(vaccine)
-                        except ValueError:
-                            print("Invalid option selected")
-                        if vaccine == "5":
+                        if vaccine.lower() == "5" or vaccine.lower() == "x":
                             print("Exiting. Goodbye")
                             exit(1)
                         if not vaccine or not vaccine.isdigit():
-                            print("Invalid input. enter (1-5)")
+                            print("Invalid input. enter (1-3)")
                             continue
                         if not vaccine == "2" and not vaccine == "1" and not vaccine == "3" and not vaccine == "4" and not vaccine == "5":
                             print("Invalid input. Choice range must be (1-5)")
@@ -567,7 +570,7 @@ Which vaccination would you like to update
                             status = status[0][0]
                             print(f"Current status: {status}")
 
-                            if status is None:
+                            if status != 'completed':
                                 while True:
                                     new_status = input("Enter the vaccination status: ")
                                     if not new_status.lower() == "completed" and not new_status.lower() == "pending":
@@ -576,32 +579,32 @@ Which vaccination would you like to update
 
                                     break
                                 while True:
-                                    vaccine_date = input("Enter the date the vaccination was taken: ")
-                                    if not vaccine_date:
+                                    vaccince_date = input("Enter the date the vaccination was taken: ")
+                                    if not vaccince_date :
                                         print("The date cannot be empty. Enter the date")
                                         continue
-                                    if vaccine_date.lower() == "x":
+                                    if vaccince_date.lower() == "x":
                                         print("Exiting. Goodbye")
                                         exit(1)
                                     try:
-                                        vaccine_date = datetime.strptime(vaccine_date, '%Y-%m-%d').date()
-                                        print(f"Date of birth  entered: {vaccine_date}\n")
+                                        vaccince_date = datetime.strptime(vaccince_date, '%Y-%m-%d').date()
+                                        print(f"VAccination date entered: {vaccince_date}\n")
                                         break
                                     except ValueError:
                                         print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
                                         continue
 
                                 while True:
-                                    next_vaccine_date = input("Enter the next date of vaccination: ")
-                                    if not next_vaccine_date:
+                                    next_vaccince_date = input("Enter the next date of vaccinaiton: ")
+                                    if not next_vaccince_date:
                                         print("The date cannot be empty. Enter the date")
                                         continue
-                                    if next_vaccine_date.lower() == "x":
+                                    if next_vaccince_date.lower() == "x":
                                         print("Exiting. Goodbye")
                                         exit(1)
                                     try:
-                                        next_vaccine_date = datetime.strptime(next_vaccine_date, '%Y-%m-%d').date()
-                                        print(f"Date of birth  entered: {next_vaccine_date}\n")
+                                        new_vaccince_date = datetime.strptime(next_vaccince_date, '%Y-%m-%d').date()
+                                        print(f"Vaccination date entered: {next_vaccince_date}\n")
                                         break
                                     except ValueError:
                                         print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
@@ -610,8 +613,8 @@ Which vaccination would you like to update
 
                                 cursor.execute(f"""UPDATE vaccination_records
                                                 SET hepatitis_B_I = "{new_status}",
-                                                date_administered_I = "{vaccine_date}",
-                                                next_admin_date = "{next_vaccine_date}"
+                                                date_administered_I = "{vaccince_date}",
+                                                next_admin_date = "{next_vaccince_date}"
                                                 WHERE patient_id = {patient_id};""")
                                 conn.commit()
                             
@@ -658,31 +661,31 @@ Next vacciantion date: {line[7]}""")
                                         continue
                                     break
                                 while True:
-                                    vaccine_date = input("Enter the next date of vaccination: ")
-                                    if not vaccine_date:
+                                    vaccince_date = input("Enter the next date of vaccinaiton: ")
+                                    if not vaccince_date:
                                         print("The date cannot be empty. Enter the date")
                                         continue
-                                    if vaccine_date.lower() == "x":
+                                    if vaccince_date.lower() == "x":
                                         print("Exiting. Goodbye")
                                         exit(1)
                                     try:
-                                        vaccine_date = datetime.strptime(vaccine_date, '%Y-%m-%d').date()
-                                        print(f"Date of birth  entered: {vaccine_date}\n")
+                                        vaccince_date = datetime.strptime(vaccince_date, '%Y-%m-%d').date()
+                                        print(f"Vaccination date entered: {vaccince_date}\n")
                                         break
                                     except ValueError:
                                         print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
                                         continue
                                 while True:
-                                    next_vaccine_date = input("Enter the next date of vaccination: ")
-                                    if not next_vaccine_date:
+                                    next_vaccince_date = input("Enter the next date of vaccinaiton: ")
+                                    if not next_vaccince_date:
                                         print("The date cannot be empty. Enter the date")
                                         continue
-                                    if next_vaccine_date.lower() == "x":
+                                    if next_vaccince_date.lower() == "x":
                                         print("Exiting. Goodbye")
                                         exit(1)
                                     try:
-                                        next_vaccine_date = datetime.strptime(next_vaccine_date, '%Y-%m-%d').date()
-                                        print(f"Date of next vaccine entered is: {next_vaccine_date}\n")
+                                        new_vaccince_date = datetime.strptime(next_vaccince_date, '%Y-%m-%d').date()
+                                        print(f"Vaccination date entered: {next_vaccince_date}\n")
                                         break
                                     except ValueError:
                                         print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
@@ -691,8 +694,8 @@ Next vacciantion date: {line[7]}""")
 
                                 cursor.execute(f"""UPDATE vaccination_records 
                                                 SET hepatitis_B_II = "{new_status}",
-                                                date_administered_I = "{vaccine_date}",
-                                                next_admin_date = "{next_vaccine_date}"
+                                                date_administered_I = "{vaccince_date}",
+                                                next_admin_date = "{next_vaccince_date}"
                                                 WHERE patient_id = {patient_id};""")
                                 
                                 cursor.execute(f"""
@@ -732,37 +735,37 @@ Next vacciantion date: {line[7]}""")
 
 
                             if status is not None and status.lower() == "completed":
-                                print("The vaccine for Hepatitis B for dosage III completed\nPlease choose another vaccine to administer or Enter X to exit")
+                                print("The vaccine for Hepatitis B for dosage III completed")
                                 continue
                             while True:
                                 new_status = input("Enter the vaccination status: ")
-                                if not new_status and not new_status.lower() == "completed" and not new_status.lower() == "pending":
+                                if not new_status and (not new_status.lower() == "completed" and not new_status.lower() == "pending"):
                                     print("Invalid input. Please enter the status.\nCompleted or Pending")
                                     continue
                                 break
 
-                        while True:
-                                new_vaccine_date = input("Enter the next date of vaccinaiton: ")
-                                if not new_vaccine_date:
+                            while True:
+                                new_vaccince_date = input("Enter the date the vaccination was administered: ")
+                                if not new_vaccince_date:
                                     print("The date cannot be empty. Enter the date")
                                     continue
-                                if new_vaccine_date.lower() == "x":
+                                if new_vaccince_date.lower() == "x":
                                     print("Exiting. Goodbye")
                                     exit(1)
                                 try:
-                                    new_vaccine_date = datetime.strptime(new_vaccine_date, '%Y-%m-%d').date()
-                                    print(f"Date of birth  entered: {new_vaccine_date}\n")
+                                    new_vaccince_date = datetime.strptime(new_vaccince_date, '%Y-%m-%d').date()
+                                    print(f"Vaccination date entered: {new_vaccince_date}\n")
                                     break
                                 except ValueError:
                                     print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
                                     continue
 
-                        cursor.execute(f"""UPDATE vaccination_records 
-                                        SET hepatitis_B_III = "{new_status}",
-                                        date_administered_III = "{new_vaccine_date}"
-                                        WHERE patient_id = {patient_id};""")
-                        
-                        conn.commit()
+                            cursor.execute(f"""UPDATE vaccination_records 
+                                            SET hepatitis_B_III = "{new_status}",
+                                            date_administered_III = "{new_vaccince_date}"
+                                            WHERE patient_id = {patient_id};""")
+                            
+                            conn.commit()
                             
                         cursor.execute(f"""
                         select * from vaccination_records
@@ -781,39 +784,39 @@ Next vacciantion date: {line[7]}""")
                                         WHERE patient_id = {patient_id};""")
                             conn.commit()
 
-                            while True:
-                                next_vaccine_date = input("Enter the next date of vaccination: ")
-                                if not next_vaccine_date:
-                                    print("The date cannot be empty. Enter the date")
-                                    continue
-                                if next_vaccine_date.lower() == "x":
-                                    print("Exiting. Goodbye")
-                                    exit(1)
-                                try:
-                                    next_vaccine_date = datetime.strptime(next_vaccine_date, '%Y-%m-%d').date()
-                                    print(f"Date of birth  entered: {next_vaccine_date}\n")
-                                    break
-                                except ValueError:
-                                    print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
-                                    continue
+                                # while True:
+                                #     next_vaccince_date = input("Enter the next date of vaccinaiton: ")
+                                #     if not next_vaccince_date:
+                                #         print("The date cannot be empty. Enter the date")
+                                #         continue
+                                #     if next_vaccince_date.lower() == "x":
+                                #         print("Exiting. Goodbye")
+                                #         exit(1)
+                                #     try:
+                                #         new_vaccince_date = datetime.strptime(next_vaccince_date, '%Y-%m-%d').date()
+                                #         print(f"Date of birth  entered: {next_vaccince_date}\n")
+                                #         break
+                                #     except ValueError:
+                                #         print("Invalid date format. Please enter the date in the format yyyy-mm-dd.")
+                                #         continue
 
 
-                            cursor.execute(f"""UPDATE vaccination_records 
-                                            SET
-                                            next_admin_date = "{next_vaccine_date}"
-                                            WHERE patient_id = {patient_id};""")
+                                # cursor.execute(f"""UPDATE vaccination_records 
+                                #                 SET
+                                #                 next_admin_date = "{next_vaccince_date}"
+                                #                 WHERE patient_id = {patient_id};""")
+                                # conn.commit()
+
+                            
+                            cursor.execute(f"""
+                            select * from vaccination_records
+                                                where patient_id={patient_id};
+                            """)
                             conn.commit()
-
-                        
-                        cursor.execute(f"""
-                        select * from vaccination_records
-                                            where patient_id={patient_id};
-                        """)
-                        conn.commit()
-                        records = cursor.fetchall()
-                        print(" ")
-                        for line in records:
-                            print(f"""
+                            records = cursor.fetchall()
+                            print(" ")
+                            for line in records:
+                                print(f"""
 ====================================
 Welcome to your Vaccination Records
 ====================================
@@ -828,12 +831,11 @@ Hepatitis B II  | {line[3]}
 Hepatitis B III | {line[5]}
 --------------------------------
 
-Next vaccination date: {line[7]}""")
+Next vacciantion date: {line[7]}""")
                             
                         if vaccine == "4":
                             break
                         continue
-
     def view_solo_info(self):
         while True:
             patient_id = input("Enter patient ID: ").strip()
@@ -1336,6 +1338,7 @@ Message:   {row[3]}
         ========================================""")
         for key, value in self.hospital_data.items():
             print(f"{key.capitalize()}: {value}")
+            print("")
 
 
 def display_health_workers_menu(patient_instance):
@@ -1383,12 +1386,7 @@ def display_health_workers_menu(patient_instance):
 
 if __name__=='__main__':
     patient_instance = Patients(patient_id=0)
-    # patient_instance.view_patient_info()
-    # patient_instance.update_patient_info()
-    # patient_instance.send_notifications()
-    # patient_instance.Hospital_info()
-    # patient_instance.display_hospital_info()
-    # patient_instance.view_solo_info()
+
     display_health_workers_menu(patient_instance)
 
 conn.commit()
